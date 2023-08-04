@@ -52,6 +52,8 @@ blockquote cite {
 }
 footer small {
     font-family: 'Open Sans', sans-serif;
+    font-size:0.6rem;
+    font-weight:300;
 }
 
 
