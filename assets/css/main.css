@@ -66,7 +66,7 @@ input, select, textarea {
 	appearance: none;
 }
 
-/* Basic */
+/********************** Basic ***********************/
 
 	@-ms-viewport {
 		width: device-width;
@@ -103,7 +103,7 @@ input, select, textarea {
 			transition: none !important;
 		}
 
-/* Type */
+/*********************** Type ***********************/
 
 	body, input, select, textarea {
 		color: #8b8f94;
@@ -299,7 +299,7 @@ input, select, textarea {
 		text-align: right;
 	}
 
-/* Form */
+/*********************** Form ***********************/
 
 	form {
 		margin: 0 0 2em 0;
@@ -557,7 +557,7 @@ input, select, textarea {
 		opacity: 1.0;
 	}
 
-/* Icon */
+/*********************** Icon ***********************/
 
 	.icon {
 		text-decoration: none;
@@ -591,7 +591,7 @@ input, select, textarea {
 			font-family: 'Font Awesome 5 Brands';
 		}
 
-/* List */
+/*********************** List ***********************/
 
 	ol {
 		list-style: decimal;
@@ -642,7 +642,7 @@ input, select, textarea {
 			margin-left: 2em;
 		}
 
-/* Actions */
+/*********************** Actions ***********************/
 
 	ul.actions {
 		display: -moz-flex;
@@ -764,7 +764,7 @@ input, select, textarea {
 
 		}
 
-/* Icons */
+/*********************** Icons ***********************/
 
 	ul.icons {
 		cursor: default;
@@ -793,7 +793,7 @@ input, select, textarea {
 
 				}
 
-/* Table */
+/*********************** Table ***********************/
 
 	.table-wrapper {
 		-webkit-overflow-scrolling: touch;
@@ -861,7 +861,7 @@ input, select, textarea {
 				border-top: 0;
 			}
 
-/* Button */
+/*********************** Button ***********************/
 
 	input[type="submit"],
 	input[type="reset"],
@@ -991,7 +991,7 @@ input, select, textarea {
 
 		}
 
-/* Page Wrapper */
+/*********************** Page Wrapper ***********************/
 
 	#page-wrapper {
 		display: -moz-flex;
@@ -1034,7 +1034,7 @@ input, select, textarea {
 
 		}
 
-/* Wrapper */
+/*********************** Wrapper ***********************/
 
 	#wrapper {
 		padding: 4.5em 4.5em 2.5em 4.5em ;
@@ -1194,7 +1194,7 @@ input, select, textarea {
 
 		}
 
-/* Banner */
+/*********************** Banner ***********************/
 
 	#banner {
 		overflow: hidden;
@@ -1244,10 +1244,13 @@ input, select, textarea {
 			opacity: 1;
 		}
 
-/* Footer */
+/*********************** Footer ***********************/
 
 	#footer {
 		position: fixed;
 		bottom: 0;
 		right: 0;
 	}
+
+
+
