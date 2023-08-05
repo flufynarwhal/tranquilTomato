@@ -178,6 +178,9 @@ html {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
+html, body {
+    height: 100%;
+}
 
 *,
 *:before,
@@ -1203,6 +1206,8 @@ body.is-ie #page-wrapper {
     -ms-flex-pack: justify;
     justify-content: space-between;
     width: 65vw;
+	height: 100vh;
+    overflow: auto; 
 }
 
 #wrapper:before {
@@ -1410,7 +1415,14 @@ body.is-preload #banner .inner ul:after {
 	justify-content:center;
 	background-color:rgba(0, 0, 0, 0.3);
 	width:100%;
-	height:100%;
+	max-height:500px;
+	padding:1rem 0;
+}
+
+@media screen and (max-width:780px) {
+	.timer {
+		max-width: 300px;
+	}
 }
 
 .timer > div {

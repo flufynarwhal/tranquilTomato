@@ -25,7 +25,7 @@ class PomodoroTimer {
 		this.workCounter = 0;
 
 		// Sound setup
-		this.bellSound = new Audio('assets/sounds/singing-bowl.mp3'); // Preload the bell sound
+		this.bellSound = new Audio('assets/sounds/deep.mp3'); // Preload the bell sound
 
 		// Initialization
 		this.init();
