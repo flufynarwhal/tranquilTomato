@@ -100,6 +100,7 @@ class PomodoroTimer {
         // Record the start time when the timer is first started.
         const startTime = Date.now();
     
+		// Run decreaseTimer every 1000ms or 1s.
         this.intervalId = setInterval(() => {
             // Calculate elapsed time
             const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
@@ -116,7 +117,6 @@ class PomodoroTimer {
         if (this.isRunning) {
             clearInterval(this.intervalId);
             this.isRunning = false;
-            this.startButton.removeAttribute('disabled');
         } else {
             this.playSound(); // Play sound when starting the timer
             this.startTimer();
@@ -128,14 +128,19 @@ class PomodoroTimer {
      * Decreases the timer's duration based on elapsed time.
      * @param {number} elapsedTime - The elapsed time in seconds.
      */
-    decreaseTimer(elapsedTime) {
-        this.currentDuration = this.workDuration - elapsedTime;
-        this.updateTimer();
-
-        if (this.currentDuration <= 0) {
-            this.handleTimeRunOut();
-        }
-    }
+	decreaseTimer(elapsedTime) {
+		if (this.isWorkPeriod) {
+			this.currentDuration = this.workDuration - elapsedTime;
+		} else if (this.workCounter >= 4) {
+			this.currentDuration = this.longBreakDuration - elapsedTime;
+		} else {
+			this.currentDuration = this.shortBreakDuration - elapsedTime;
+		}
+		this.updateTimer();
+	
+		if (this.currentDuration <= 0) {
+			this.handleTimeRunOut();
+	}
 
 
 
@@ -143,8 +148,8 @@ class PomodoroTimer {
 	 * Logic to handle when the timer runs out, switching between work and break periods.
 	 */
 	handleTimeRunOut() {
-		this.isRunning = false;
 		clearInterval(this.intervalId);
+		this.isRunning = false;
 
 		this.playSound(); // play the bell sound
 
@@ -172,7 +177,6 @@ class PomodoroTimer {
 		this.isWorkPeriod = !this.isWorkPeriod;
 		this.updateTimer();
 		this.updateStartButton();
-		this.startButton.removeAttribute('disabled');
 	}
 
     /**
@@ -186,7 +190,6 @@ class PomodoroTimer {
 		this.workCounter = 0;
 		this.updateTimer();
 		this.updateStartButton();
-		this.startButton.removeAttribute('disabled');
 	}
 
 	/**
