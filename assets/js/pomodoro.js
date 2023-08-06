@@ -140,6 +140,7 @@ class PomodoroTimer {
 	
 		if (this.currentDuration <= 0) {
 			this.handleTimeRunOut();
+		}
 	}
 
 
@@ -148,8 +149,8 @@ class PomodoroTimer {
 	 * Logic to handle when the timer runs out, switching between work and break periods.
 	 */
 	handleTimeRunOut() {
-		clearInterval(this.intervalId);
 		this.isRunning = false;
+		clearInterval(this.intervalId);
 
 		this.playSound(); // play the bell sound
 
