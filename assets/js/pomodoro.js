@@ -88,12 +88,17 @@ class PomodoroTimer {
     }   
 
 	/**
-	 * Decreases the timer's duration every second.
-	 */
-	decreaseTimer() {
-		this.currentDuration--;
-		this.updateTimer();
-	}
+     * Decreases the timer's duration based on elapsed time.
+     * @param {number} elapsedTime - The elapsed time in seconds.
+     */
+    decreaseTimer(elapsedTime) {
+        this.currentDuration = this.workDuration - elapsedTime;
+        this.updateTimer();
+
+        if (this.currentDuration <= 0) {
+            this.handleTimeRunOut();
+        }
+    }
 
 	/**
 	 * Play a sound effect for transitions.
@@ -151,12 +156,16 @@ class PomodoroTimer {
 	 */
     startTimer() {
         this.isRunning = true;
+    
+        // Record the start time when the timer is first started.
+        const startTime = Date.now();
+    
         this.intervalId = setInterval(() => {
-            this.decreaseTimer();
-
-            if (this.currentDuration <= 0) {
-                this.handleTimeRunOut();
-            }
+            // Calculate elapsed time
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            
+            // Decrease the timer based on elapsed time.
+            this.decreaseTimer(elapsedTime);
         }, 1000);
     }
 
