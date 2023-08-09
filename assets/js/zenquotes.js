@@ -13,4 +13,8 @@ async function getapi() {
   var data = await response.json();
   console.log(data);
 
+//posts quote and the author into DOM
+  document.querySelector('#postQuote').textContent = data[0].q
+  document.querySelector('#zenAuthor').textContent = `—${data[0].a}`
+  //document.querySelector('#hQuote').innerHTML = data[0].h
 }
