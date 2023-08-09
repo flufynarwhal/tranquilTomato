@@ -31,6 +31,17 @@ class PomodoroTimer {
 		this.init();
 	}
 
+    /**
+	 * Setup event listeners and display the initial timer.
+	 */
+	init() {
+		this.startButton.addEventListener('click', this.toggleTimer.bind(this));
+		this.resetButton.addEventListener('click', this.resetTimer.bind(this));
+		document.querySelector('.modal-close').addEventListener('click', this.closeModal.bind(this)); // Listen for close click
+
+		this.updateTimer();
+	}
+
 	/**
 	 * Convert seconds into a MM:SS format.
 	 * @param {number} seconds - The number of seconds.
@@ -40,6 +51,14 @@ class PomodoroTimer {
 		const minutes = Math.floor(seconds / 60);
 		const remainingSeconds = seconds % 60;
 		return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+	}
+
+    /**
+	 * Play a sound effect for transitions.
+	 */
+	playSound() {
+		this.bellSound.currentTime = 0; // reset the sound to start from the beginning
+		this.bellSound.play();
 	}
 
 	/**
@@ -73,13 +92,31 @@ class PomodoroTimer {
 	}
 
     /**
+	 * Start the countdown timer.
+	 */
+    startTimer() {
+        this.isRunning = true;
+    
+        // Record the start time when the timer is first started.
+        const startTime = Date.now();
+    
+		// Run decreaseTimer every 1000ms or 1s.
+        this.intervalId = setInterval(() => {
+            // Calculate elapsed time
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            
+            // Decrease the timer based on elapsed time.
+            this.decreaseTimer(elapsedTime);
+        }, 1000);
+    }
+
+    /**
      * Toggle between starting and pausing the timer.
      */
     toggleTimer() {
         if (this.isRunning) {
             clearInterval(this.intervalId);
             this.isRunning = false;
-            this.startButton.removeAttribute('disabled');
         } else {
             this.playSound(); // Play sound when starting the timer
             this.startTimer();
@@ -88,20 +125,25 @@ class PomodoroTimer {
     }   
 
 	/**
-	 * Decreases the timer's duration every second.
-	 */
-	decreaseTimer() {
-		this.currentDuration--;
+     * Decreases the timer's duration based on elapsed time.
+     * @param {number} elapsedTime - The elapsed time in seconds.
+     */
+	decreaseTimer(elapsedTime) {
+		if (this.isWorkPeriod) {
+			this.currentDuration = this.workDuration - elapsedTime;
+		} else if (this.workCounter >= 4) {
+			this.currentDuration = this.longBreakDuration - elapsedTime;
+		} else {
+			this.currentDuration = this.shortBreakDuration - elapsedTime;
+		}
 		this.updateTimer();
+	
+		if (this.currentDuration <= 0) {
+			this.handleTimeRunOut();
+		}
 	}
 
-	/**
-	 * Play a sound effect for transitions.
-	 */
-	playSound() {
-		this.bellSound.currentTime = 0; // reset the sound to start from the beginning
-		this.bellSound.play();
-	}
+
 
 	/**
 	 * Logic to handle when the timer runs out, switching between work and break periods.
@@ -136,31 +178,9 @@ class PomodoroTimer {
 		this.isWorkPeriod = !this.isWorkPeriod;
 		this.updateTimer();
 		this.updateStartButton();
-		this.startButton.removeAttribute('disabled');
 	}
 
-	/**
-	 * Close the transition modal.
-	 */
-	closeModal() {
-		document.getElementById('transition-modal').style.display = 'none';
-	}
-
-	/**
-	 * Start the countdown timer.
-	 */
-    startTimer() {
-        this.isRunning = true;
-        this.intervalId = setInterval(() => {
-            this.decreaseTimer();
-
-            if (this.currentDuration <= 0) {
-                this.handleTimeRunOut();
-            }
-        }, 1000);
-    }
-
-	/**
+    /**
 	 * Reset the timer to its default state.
 	 */
 	resetTimer() {
@@ -171,19 +191,20 @@ class PomodoroTimer {
 		this.workCounter = 0;
 		this.updateTimer();
 		this.updateStartButton();
-		this.startButton.removeAttribute('disabled');
 	}
 
 	/**
-	 * Setup event listeners and display the initial timer.
+	 * Close the transition modal.
 	 */
-	init() {
-		this.startButton.addEventListener('click', this.toggleTimer.bind(this));
-		this.resetButton.addEventListener('click', this.resetTimer.bind(this));
-		document.querySelector('.modal-close').addEventListener('click', this.closeModal.bind(this)); // Listen for close click
-
-		this.updateTimer();
+	closeModal() {
+		document.getElementById('transition-modal').style.display = 'none';
 	}
+
+
+
+
+
+
 }
 
 // Initialize the Pomodoro timer upon page load.
